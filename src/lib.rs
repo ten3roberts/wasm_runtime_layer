@@ -278,7 +278,11 @@ impl Display for FuncType {
 
         let mut first = true;
 
-        write!(f, "func(")?;
+        if let Some(name) = &self.name {
+            write!(f, "func {name}(")?;
+        } else {
+            write!(f, "func(")?;
+        }
         for param in params {
             if !first {
                 write!(f, ", ")?;

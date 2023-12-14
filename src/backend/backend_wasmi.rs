@@ -95,6 +95,9 @@ impl WasmFunc<wasmi::Engine> for wasmi::Func {
         args: &[Value<wasmi::Engine>],
         results: &mut [Value<wasmi::Engine>],
     ) -> Result<()> {
+        #[cfg(feature = "tracing")]
+        let _span = tracing::debug_span!("Func::call", ?args, ty = ?self.ty(ctx.as_context_mut()))
+            .entered();
         let mut input = ArgumentVec::with_capacity(args.len());
         input.extend(args.iter().map(Into::into));
 
